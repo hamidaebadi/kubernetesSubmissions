@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -9,7 +10,16 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type TodoHomePageData struct {
+	PageTitle string
+	MainTitle string
+	Todos     []string
+}
+
 func main() {
+
+	//parse template
+	tmpl := template.Must(template.ParseFiles("layout.html"))
 
 	//Load the .env file
 	if err := godotenv.Load(); err != nil {
@@ -20,7 +30,13 @@ func main() {
 
 	// Handle requests
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello from Gorilla !"))
+		homeData := TodoHomePageData{
+			PageTitle: "KUBE TODO",
+			MainTitle: "welcome To Kube ToDo APP",
+			Todos:     []string{"First Task"},
+		}
+
+		tmpl.Execute(w, homeData)
 	})
 
 	port := os.Getenv("SERVER_PORT")

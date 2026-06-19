@@ -14,6 +14,7 @@ WORKDIR /app
 
 COPY --from=builder /app/server .
 
+COPY layout.html .
 EXPOSE 8080
 
 CMD [ "./server" ]
