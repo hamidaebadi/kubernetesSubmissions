@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-todo-dep
+spec:
+  selector:
+    matchLabels:
+      app: kube-todo-api
+  template:
+    metadata:
+      labels:
+        app: kube-todo-api
+    spec:
+      containers:
+      - name: kube-todo-api
+        image: hamidaebadi/kube-todo-webserver:latest
+        ports:
+        - containerPort: 8080
